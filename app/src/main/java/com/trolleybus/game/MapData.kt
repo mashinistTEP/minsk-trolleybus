@@ -35,13 +35,11 @@ enum class RouteType {
 
 data class RouteInfo(
     val type: RouteType,
-    // Табло
-    val boardNumber: String,      // большая цифра (пусто для 1п)
-    val boardTopLine: String,     // верхняя строка правее цифры
-    val boardBottomLine: String,  // нижняя строка правее цифры
-    // Меню
-    val menuLine1: String,        // первая строка в меню
-    val menuLine2: String,        // вторая строка в меню
+    val boardNumber: String,
+    val boardTopLine: String,
+    val boardBottomLine: String,
+    val menuLine1: String,
+    val menuLine2: String = "",
     val isDepotRoute: Boolean = false,
     val startsFromDepot: Boolean = false
 )
@@ -57,7 +55,7 @@ object MapData {
         "МотаВелаЗавод"            to Stop("МотаВелаЗавод",            11.5f,  6.0f),
         "БелМедПрэпараты"          to Stop("БелМедПрэпараты",          11.5f,  4.0f),
         "Вакзал"                    to Stop("Вакзал",                    11.5f,  2.0f, isTerminal = true),
-        "Аранская"                  to Stop("Аранская",                  11.5f,  2.0f, isTerminal = true),
+        "Аранская"                  to Stop("Аранская",                  11.5f,  2.2f, isTerminal = true),
         "Тралейбусны парк нумар 5"  to Stop("Тралейбусны парк нумар 5", 17.5f,  9.5f, isDepotStop = true)
     )
 
@@ -70,7 +68,9 @@ object MapData {
         stops["Вакзал"]!!
     )
 
+    // Маршрут назад начинается с Вакзала, потом Аранская (другая сторона)
     val route1ToAngarskaya = listOf(
+        stops["Вакзал"]!!,
         stops["Аранская"]!!,
         stops["МотаВелаЗавод"]!!,
         stops["Плошча Ванеева"]!!,
@@ -78,7 +78,6 @@ object MapData {
         stops["ДС Ангарская-4"]!!
     )
 
-    // Из парка: без Магілеўскай (поворот сразу после Ванеева)
     val route1FromDepot = listOf(
         stops["Тралейбусны парк нумар 5"]!!,
         stops["Плошча Ванеева"]!!,
@@ -87,7 +86,6 @@ object MapData {
         stops["Вакзал"]!!
     )
 
-    // 1п: только в парк
     val route1PToDepot = listOf(
         stops["Вакзал"]!!,
         stops["БелМедПрэпараты"]!!,
@@ -98,38 +96,35 @@ object MapData {
 
     val routes = listOf(
         RouteInfo(
-            type           = RouteType.ROUTE_1_TO_VAKZAL,
-            boardNumber    = "1",
-            boardTopLine   = "ДС Ангарская-4",
-            boardBottomLine= "Вакзал",
-            menuLine1      = "1 маршрут (Да \"Вакзала\")",
-            menuLine2      = ""
+            type            = RouteType.ROUTE_1_TO_VAKZAL,
+            boardNumber     = "1",
+            boardTopLine    = "ДС Ангарская-4",
+            boardBottomLine = "Вакзал",
+            menuLine1       = "1 маршрут (Да \"Вакзала\")"
         ),
         RouteInfo(
-            type           = RouteType.ROUTE_1_TO_ANGARSKAYA,
-            boardNumber    = "1",
-            boardTopLine   = "Вакзал",
-            boardBottomLine= "ДС Ангарская-4",
-            menuLine1      = "1 маршрут (Да \"ДС Ангарская-4\")",
-            menuLine2      = ""
+            type            = RouteType.ROUTE_1_TO_ANGARSKAYA,
+            boardNumber     = "1",
+            boardTopLine    = "Вакзал",
+            boardBottomLine = "ДС Ангарская-4",
+            menuLine1       = "1 маршрут (Да \"ДС Ангарская-4\")"
         ),
         RouteInfo(
-            type           = RouteType.ROUTE_1_FROM_DEPOT,
-            boardNumber    = "1",
-            boardTopLine   = "ДС Ангарская-4",
-            boardBottomLine= "Вакзал",
-            menuLine1      = "1 маршрут (з парку) (Да \"Вакзала\")",
-            menuLine2      = "",
-            startsFromDepot= true
+            type            = RouteType.ROUTE_1_FROM_DEPOT,
+            boardNumber     = "1",
+            boardTopLine    = "ДС Ангарская-4",
+            boardBottomLine = "Вакзал",
+            menuLine1       = "1 маршрут (з парку) (Да \"Вакзала\")",
+            startsFromDepot = true
         ),
         RouteInfo(
-            type           = RouteType.ROUTE_1P_TO_DEPOT,
-            boardNumber    = "",
-            boardTopLine   = "У парк Солтыса, 26",
-            boardBottomLine= "па 1 маршруце",
-            menuLine1      = "1п маршрут (ў парк)",
-            menuLine2      = "(Да \"Плошча Ванеева\" далей Тралейбусны парк)",
-            isDepotRoute   = true
+            type            = RouteType.ROUTE_1P_TO_DEPOT,
+            boardNumber     = "",
+            boardTopLine    = "У парк Солтыса, 26",
+            boardBottomLine = "па 1 маршруце",
+            menuLine1       = "1п маршрут (ў парк)",
+            menuLine2       = "(Да \"Плошча Ванеева\" далей Тралейбусны парк)",
+            isDepotRoute    = true
         )
     )
 
